@@ -5,21 +5,21 @@ import java.lang.reflect.Constructor;
 
 public class Arquivo<T extends EntidadeArquivo> {
 
-    public String nomeEntidade;
-    RandomAccessFile arquivo;
-    Constructor<T> construtor;
-    final int TAMANHO_CABECALHO = 13;
+    public String nomeEntidade; // Nome da entidade
+    RandomAccessFile arquivo; // Possibilita o acesso ao arquivo
+    Constructor<T> construtor; // Constroí um arquivo
+    final int TAMANHO_CABECALHO = 13; // Define o tamanho do cabeçalho
 
     public Arquivo(String ne, Constructor<T> c) throws Exception {
-        this.nomeEntidade = ne;
+        this.nomeEntidade = ne; // Nome da entidade
         this.construtor = c;
-        File f = new File(".//dados");
+        File f = new File(".//dados"); // acessa a pasta dados
         if(!f.exists())
             f.mkdir();
-        f = new File(".//dados//"+nomeEntidade);
+        f = new File(".//dados//"+nomeEntidade); // Cria -> se não existe
         if(!f.exists())
             f.mkdir();
-        arquivo = new RandomAccessFile(".//dados//"+nomeEntidade+"//"+nomeEntidade +".db", "rw");
+        arquivo = new RandomAccessFile(".//dados//"+nomeEntidade+"//"+nomeEntidade +".db", "rw"); // Acessa -> se existe
         if(arquivo.length()<TAMANHO_CABECALHO) {
             arquivo.writeByte(2);  // versão do Arquivo
             arquivo.writeInt(0);   // último ID
