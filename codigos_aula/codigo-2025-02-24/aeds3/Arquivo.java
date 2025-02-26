@@ -21,19 +21,19 @@ public class Arquivo<T extends EntidadeArquivo> {
             f.mkdir();
         arquivo = new RandomAccessFile(".//dados//"+nomeEntidade+"//"+nomeEntidade +".db", "rw"); // Acessa -> se existe
         if(arquivo.length()<TAMANHO_CABECALHO) {
-            arquivo.writeByte(2);  // versão do Arquivo
-            arquivo.writeInt(0);   // último ID
-            arquivo.writeLong(-1);   // ponteiro para primeiro registro excluído
+            arquivo.writeByte(2);  // Versão do Arquivo
+            arquivo.writeInt(0);   // Último ID
+            arquivo.writeLong(-1);   // Ponteiro para primeiro registro excluído
         }
     }
 
     public int create(T entidade) throws Exception {
-        // Obtem o ID da nova entidade
-        arquivo.seek(1);
-        int novoID = arquivo.readInt() + 1;
-        entidade.setID(novoID);
-        arquivo.seek(1);
-        arquivo.writeInt(novoID);
+
+        arquivo.seek(1); // Busca o id presente no cabeçalho do arquivo
+        int novoID = arquivo.readInt() + 1; // Cria um novo id
+        entidade.setID(novoID); // "Seta" na entidade o novo id
+        arquivo.seek(1); // Vai para a posição do id do cabeçalho 
+        arquivo.writeInt(novoID); // Seta o novo valor
 
         // Grava o novo registro
         byte[] vb = entidade.toByteArray();
